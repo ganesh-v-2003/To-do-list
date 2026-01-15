@@ -12,7 +12,7 @@ export async function HeroSection() {
   return (
     <section className="flex-1 flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-4xl text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2  bg-primary/10 text-primary text-sm font-medium mb-6">
           <Zap className="h-4 w-4" />
           <span>Organize Your Life, One Task at a Time</span>
         </div>

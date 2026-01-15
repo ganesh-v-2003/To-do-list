@@ -172,7 +172,7 @@ export default function TasksList({ user }: { user: any }) {
     <div className="min-h-screen bg-[#0a0a0a] text-white p-6 md:p-12 font-sans">
       <div className="flex items-center justify-between mb-12">
         <div className="flex items-center gap-4">
-          <div className="p-2 bg-[#1a1a1a] rounded-lg border border-white/5 shadow-xl">
+          <div className="p-2 bg-[#1a1a1a] -lg border border-white/5 shadow-xl">
             <LayoutGrid className="h-5 w-5 text-gray-400" />
           </div>
           <nav className="text-sm font-medium">
@@ -191,7 +191,7 @@ export default function TasksList({ user }: { user: any }) {
             </Link>
           </nav>
         </div>
-        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold shadow-lg border border-white/10">
+        <div className="h-10 w-10 -full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold shadow-lg border border-white/10">
           G
         </div>
       </div>
@@ -218,14 +218,14 @@ export default function TasksList({ user }: { user: any }) {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-600" />
               <Input
                 placeholder="Search tasks..."
-                className="bg-[#121212] border-white/5 pl-12 h-14 rounded-xl"
+                className="bg-[#121212] border-white/5 pl-12 h-14 -xl"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             <Button
               onClick={() => setIsAdding(!isAdding)}
-              className="h-14 px-8 bg-white text-black hover:bg-gray-200 rounded-xl font-bold"
+              className="h-14 px-8 bg-white text-black hover:bg-gray-200 -xl font-bold"
             >
               {isAdding ? (
                 <X className="mr-2 h-5 w-5" />
@@ -239,12 +239,12 @@ export default function TasksList({ user }: { user: any }) {
 
         <div className="flex flex-col sm:flex-row items-center justify-between py-6 border-b border-white/5 gap-6">
           <div className="flex items-center gap-3">
-            <div className="flex p-1.5 bg-[#121212] rounded-2xl border border-white/5">
+            <div className="flex p-1.5 bg-[#121212] -2xl border border-white/5">
               {(["all", "active", "completed"] as const).map((f) => (
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                  className={`px-6 py-2.5 -xl text-sm font-bold transition-all ${
                     filter === f
                       ? "bg-[#1d1d1d] text-white shadow-lg"
                       : "text-gray-500 hover:text-gray-300"
@@ -258,7 +258,7 @@ export default function TasksList({ user }: { user: any }) {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="h-12 w-12 rounded-2xl bg-[#121212] border-white/5"
+                  className="h-12 w-12 -2xl bg-[#121212] border-white/5"
                 >
                   <Filter
                     className={`h-5 w-5 ${
@@ -272,7 +272,7 @@ export default function TasksList({ user }: { user: any }) {
                 side="bottom"
                 sideOffset={12}
                 avoidCollisions={false}
-                className="w-64 bg-[#0f0f0f] border-white/10 text-white z-50 rounded-2xl"
+                className="w-64 bg-[#0f0f0f] border-white/10 text-white z-50 -2xl"
               >
                 <DropdownMenuLabel className="px-4 py-3 text-xs uppercase text-gray-400">
                   Timeframe
@@ -313,7 +313,7 @@ export default function TasksList({ user }: { user: any }) {
                       type="date"
                       value={selectedDate}
                       onChange={(e) => setSelectedDate(e.target.value)}
-                      className="w-full bg-[#1a1a1a] rounded-lg px-3 py-2 text-white [color-scheme:dark]"
+                      className="w-full bg-[#1a1a1a] -lg px-3 py-2 text-white [color-scheme:dark]"
                     />
                   </div>
                 )}
@@ -322,18 +322,18 @@ export default function TasksList({ user }: { user: any }) {
           </div>
           <div className="flex gap-8 text-sm font-bold">
             <div className="flex items-center gap-2 text-emerald-400">
-              <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-lg" />{" "}
+              <div className="h-2 w-2 -full bg-emerald-500 shadow-lg" />{" "}
               {counts.done} Done
             </div>
             <div className="flex items-center gap-2 text-amber-400">
-              <div className="h-2 w-2 rounded-full bg-amber-500 shadow-lg" />{" "}
+              <div className="h-2 w-2 -full bg-amber-500 shadow-lg" />{" "}
               {counts.pending} Pending
             </div>
           </div>
         </div>
 
         {isAdding && (
-          <Card className="bg-[#121212] border-white/5 rounded-3xl animate-in slide-in-from-top-4">
+          <Card className="bg-[#121212] border-white/5 -3xl animate-in slide-in-from-top-4">
             <CardContent className="p-8 grid grid-cols-1 md:grid-cols-12 gap-8">
               <div className="md:col-span-8 gap-6 flex flex-col">
                 <Input
@@ -342,7 +342,7 @@ export default function TasksList({ user }: { user: any }) {
                   onChange={(e) =>
                     setNewTask({ ...newTask, title: e.target.value })
                   }
-                  className="bg-[#1a1a1a] border-white/10 h-14 text-lg rounded-xl"
+                  className="bg-[#1a1a1a] border-white/10 h-14 text-lg -xl"
                 />
                 <Input
                   placeholder="Description (Optional)"
@@ -350,7 +350,7 @@ export default function TasksList({ user }: { user: any }) {
                   onChange={(e) =>
                     setNewTask({ ...newTask, description: e.target.value })
                   }
-                  className="bg-[#1a1a1a] border-white/10 h-14 rounded-xl"
+                  className="bg-[#1a1a1a] border-white/10 h-14 -xl"
                 />
               </div>
               <div className="md:col-span-4 flex flex-col justify-between gap-6">
@@ -359,7 +359,7 @@ export default function TasksList({ user }: { user: any }) {
                     <button
                       key={p}
                       onClick={() => setNewTask({ ...newTask, priority: p })}
-                      className={`flex-1 py-3 rounded-xl text-xs font-black border uppercase ${
+                      className={`flex-1 py-3 -xl text-xs font-black border uppercase ${
                         newTask.priority === p
                           ? PRIORITY[p].color + " border-white/10"
                           : "bg-[#1a1a1a] text-gray-500 border-transparent"
@@ -371,7 +371,7 @@ export default function TasksList({ user }: { user: any }) {
                 </div>
                 <Button
                   onClick={() => handleAction("add")}
-                  className="w-full h-14 bg-indigo-600 hover:bg-indigo-500 font-black rounded-xl"
+                  className="w-full h-14 bg-indigo-600 hover:bg-indigo-500 font-black -xl"
                 >
                   Create Task
                 </Button>
@@ -385,7 +385,7 @@ export default function TasksList({ user }: { user: any }) {
             filteredTasks.map((t) => (
               <div
                 key={t.id}
-                className={`group flex items-center justify-between p-6 bg-[#121212] rounded-3xl border border-white/5 transition-all hover:bg-[#161616] ${
+                className={`group flex items-center justify-between p-6 bg-[#121212] -3xl border border-white/5 transition-all hover:bg-[#161616] ${
                   t.completed ? "opacity-40" : ""
                 }`}
               >
@@ -393,7 +393,7 @@ export default function TasksList({ user }: { user: any }) {
                   <Checkbox
                     checked={t.completed}
                     onCheckedChange={() => handleAction("toggle", t.id)}
-                    className="h-7 w-7 rounded-full data-[state=checked]:bg-emerald-500 transition-all"
+                    className="h-7 w-7 -full data-[state=checked]:bg-emerald-500 transition-all"
                   />
                   <div className="min-w-0">
                     <h3
@@ -415,7 +415,7 @@ export default function TasksList({ user }: { user: any }) {
                         variant="outline"
                         className={`${
                           PRIORITY[t.priority].color
-                        } border-none font-black text-[10px] uppercase px-2.5 py-0.5 rounded-full ring-1 ring-inset`}
+                        } border-none font-black text-[10px] uppercase px-2.5 py-0.5 -full ring-1 ring-inset`}
                       >
                         {PRIORITY[t.priority].label}
                       </Badge>
@@ -434,7 +434,7 @@ export default function TasksList({ user }: { user: any }) {
                     size="icon"
                     variant="ghost"
                     onClick={() => handleAction("toggle", t.id)}
-                    className="h-10 w-10 text-gray-500 hover:text-white rounded-xl"
+                    className="h-10 w-10 text-gray-500 hover:text-white -xl"
                   >
                     {t.completed ? (
                       <ArrowUpCircle className="h-4 w-4" />
@@ -446,7 +446,7 @@ export default function TasksList({ user }: { user: any }) {
                     size="icon"
                     variant="ghost"
                     onClick={() => handleAction("delete", t.id)}
-                    className="h-10 w-10 text-rose-500 hover:bg-rose-600 hover:text-white rounded-xl"
+                    className="h-10 w-10 text-rose-500 hover:bg-rose-600 hover:text-white -xl"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

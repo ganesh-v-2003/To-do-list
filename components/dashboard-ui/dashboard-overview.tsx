@@ -23,7 +23,7 @@ export function UserGreeting({ user }: { user: any }) {
     <div className="flex flex-col gap-2 mb-4">
       <div className="flex items-center gap-4">
         <div className="relative">
-          <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+          <div className="absolute inset-0 bg-primary/20 blur-xl -full" />
           <CheckCircle2 className="h-8 w-8 text-primary relative z-10" />
         </div>
         <div>
@@ -205,7 +205,7 @@ export async function DashboardOverview({ user }: DashboardOverviewProps) {
                   >
                     <span className="flex items-center gap-2">
                       <span
-                        className={`h-2 w-2 rounded-full ${
+                        className={`h-2 w-2 -full ${
                           task.completed
                             ? "bg-emerald-500"
                             : task.priority === "high"
