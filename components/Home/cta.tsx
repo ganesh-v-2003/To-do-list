@@ -48,7 +48,7 @@ export async function CTA() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="text-base text-white border-white/20 hover:bg-white/10 transition-all duration-300 px-8 h-12"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap -md font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-secondary text-secondary-foreground hover:bg-secondary/80 -md text-base px-8 h-12 shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Link href="#features">Learn More</Link>
                 </Button>
