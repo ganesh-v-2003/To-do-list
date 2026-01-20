@@ -16,6 +16,8 @@ interface DashboardOverviewProps {
   user: any;
 }
 
+// --- Sub-Components ---
+
 export function UserGreeting({ user }: { user: any }) {
   const email = user?.email ?? "User";
 
@@ -66,6 +68,158 @@ export function AccountCard({ user }: { user: any }) {
     </Card>
   );
 }
+
+function StatsCards({
+  totalToday,
+  completedToday,
+  remainingToday,
+  totalFocusSessions,
+  focusHours,
+  focusMinsRemaining,
+  weeklyCompletions,
+}: {
+  totalToday: number;
+  completedToday: number;
+  remainingToday: number;
+  totalFocusSessions: number;
+  focusHours: number;
+  focusMinsRemaining: number;
+  weeklyCompletions: number;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <Card className="group cursor-pointer hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500 border-white/5 bg-gradient-to-br from-white/[0.03] to-transparent backdrop-blur-sm -3xl overflow-hidden relative">
+        <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <Link href="/dashboard?view=tasks" className="block relative z-10">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-bold tracking-wider text-muted-foreground uppercase">
+              Tasks today
+            </CardTitle>
+            <div className="p-2 bg-primary/10 -lg group-hover:scale-110 transition-transform duration-500">
+              <ListTodo className="h-4 w-4 text-primary" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-4xl font-black tracking-tighter mt-2">
+              {totalToday}
+            </div>
+            <p className="text-xs text-muted-foreground mt-3 flex items-center gap-2">
+              <span className="flex h-1.5 w-1.5 -full bg-emerald-500" />
+              <span className="text-emerald-500/80 font-bold">
+                {completedToday} completed
+              </span>{" "}
+              · {remainingToday} pending
+            </p>
+          </CardContent>
+        </Link>
+      </Card>
+
+      <Card className="group hover:shadow-2xl transition-all duration-500 border-white/5 bg-gradient-to-br from-white/[0.03] to-transparent backdrop-blur-sm -3xl relative overflow-hidden">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
+          <CardTitle className="text-sm font-bold tracking-wider text-muted-foreground uppercase">
+            Focus sessions
+          </CardTitle>
+          <div className="p-2 bg-amber-500/10 -lg group-hover:rotate-12 transition-transform duration-500">
+            <Clock className="h-4 w-4 text-amber-500" />
+          </div>
+        </CardHeader>
+        <CardContent className="relative z-10">
+          <div className="text-4xl font-black tracking-tighter mt-2">
+            {totalFocusSessions}
+          </div>
+          <p className="text-xs text-muted-foreground mt-3 flex items-center gap-2">
+            <span className="flex h-1.5 w-1.5 -full bg-amber-500" />
+            {focusHours}h {focusMinsRemaining}m focused time today
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card className="group hover:shadow-2xl transition-all duration-500 border-white/5 bg-gradient-to-br from-white/[0.03] to-transparent backdrop-blur-sm -3xl relative overflow-hidden">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
+          <CardTitle className="text-sm font-bold tracking-wider text-muted-foreground uppercase">
+            This week
+          </CardTitle>
+          <div className="p-2 bg-indigo-500/10 -lg group-hover:scale-110 transition-transform duration-500">
+            <CalendarDays className="h-4 w-4 text-indigo-500" />
+          </div>
+        </CardHeader>
+        <CardContent className="relative z-10">
+          <div className="text-4xl font-black tracking-tighter mt-2">
+            {weeklyCompletions ?? 0}
+          </div>
+          <p className="text-xs text-muted-foreground mt-3 flex items-center gap-2">
+            <span className="flex h-1.5 w-1.5 -full bg-indigo-500" />
+            Tasks completed this week
+          </p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function FocusList({ todayTasks }: { todayTasks: any[] | null }) {
+  return (
+    <Card className="lg:col-span-2">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Today&apos;s Focus</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Your top-priority items for the day.
+          </p>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-3 text-sm mb-4">
+          {todayTasks && todayTasks.length > 0 ? (
+            todayTasks.slice(0, 5).map((task) => (
+              <li key={task.id} className="flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <span
+                    className={`h-2 w-2 -full ${
+                      task.completed
+                        ? "bg-emerald-500"
+                        : task.priority === "high"
+                          ? "bg-rose-500"
+                          : task.priority === "medium"
+                            ? "bg-amber-500"
+                            : "bg-primary"
+                    }`}
+                  />
+                  <span
+                    className={
+                      task.completed ? "line-through text-muted-foreground" : ""
+                    }
+                  >
+                    {task.title}
+                  </span>
+                </span>
+                <span className="text-xs text-muted-foreground capitalize">
+                  {task.priority}
+                </span>
+              </li>
+            ))
+          ) : (
+            <li className="text-muted-foreground italic">
+              No tasks for today yet.
+            </li>
+          )}
+        </ul>
+        <Button
+          asChild
+          variant="default"
+          className="w-full shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all"
+        >
+          <Link href="/dashboard?view=tasks">
+            Go to Tasks List
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+// --- Main Component ---
 
 export async function DashboardOverview({ user }: DashboardOverviewProps) {
   const supabase = await createClient();
@@ -135,119 +289,18 @@ export async function DashboardOverview({ user }: DashboardOverviewProps) {
         <UserGreeting user={user} />
       </Suspense>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="group cursor-pointer hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border-primary/10 bg-gradient-to-br from-card to-primary/5">
-          <Link href="/dashboard?view=tasks" className="block">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Tasks today</CardTitle>
-              <ListTodo className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold tracking-tight">
-                {totalToday}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                <span className="text-emerald-500 font-medium">
-                  {completedToday} completed
-                </span>{" "}
-                · {remainingToday} remaining
-              </p>
-            </CardContent>
-          </Link>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Focus sessions
-            </CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalFocusSessions}</div>
-            <p className="text-xs text-muted-foreground">
-              {focusHours}h {focusMinsRemaining}m focused time today
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This week</CardTitle>
-            <CalendarDays className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{weeklyCompletions ?? 0}</div>
-            <p className="text-xs text-muted-foreground">
-              Tasks completed this week
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      <StatsCards
+        totalToday={totalToday}
+        completedToday={completedToday}
+        remainingToday={remainingToday}
+        totalFocusSessions={totalFocusSessions}
+        focusHours={focusHours}
+        focusMinsRemaining={focusMinsRemaining}
+        weeklyCompletions={weeklyCompletions ?? 0}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle>Today&apos;s Focus</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Your top-priority items for the day.
-              </p>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-3 text-sm mb-4">
-              {todayTasks && todayTasks.length > 0 ? (
-                todayTasks.slice(0, 5).map((task) => (
-                  <li
-                    key={task.id}
-                    className="flex items-center justify-between"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span
-                        className={`h-2 w-2 -full ${
-                          task.completed
-                            ? "bg-emerald-500"
-                            : task.priority === "high"
-                            ? "bg-rose-500"
-                            : task.priority === "medium"
-                            ? "bg-amber-500"
-                            : "bg-primary"
-                        }`}
-                      />
-                      <span
-                        className={
-                          task.completed
-                            ? "line-through text-muted-foreground"
-                            : ""
-                        }
-                      >
-                        {task.title}
-                      </span>
-                    </span>
-                    <span className="text-xs text-muted-foreground capitalize">
-                      {task.priority}
-                    </span>
-                  </li>
-                ))
-              ) : (
-                <li className="text-muted-foreground italic">
-                  No tasks for today yet.
-                </li>
-              )}
-            </ul>
-            <Button
-              asChild
-              variant="default"
-              className="w-full shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all"
-            >
-              <Link href="/dashboard?view=tasks">
-                Go to Tasks List
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+        <FocusList todayTasks={todayTasks} />
 
         <Suspense
           fallback={

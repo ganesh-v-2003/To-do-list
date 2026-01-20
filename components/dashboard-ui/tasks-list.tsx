@@ -64,7 +64,7 @@ export default function TasksList({ user }: { user: any }) {
     "all" | "today" | "past" | "custom"
   >("all");
   const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
   const [isAdding, setIsAdding] = useState(false);
 
@@ -92,14 +92,14 @@ export default function TasksList({ user }: { user: any }) {
           alert("Supabase API Key Error: Check your .env.local");
         if (data)
           setTasks(
-            data.map((t: any) => ({ ...t, createdAt: new Date(t.created_at) }))
+            data.map((t: any) => ({ ...t, createdAt: new Date(t.created_at) })),
           );
       });
   }, [user?.id]);
 
   const handleAction = async (
     type: "add" | "toggle" | "delete",
-    id?: string
+    id?: string,
   ) => {
     const supabase = createClient();
     if (type === "add") {
@@ -124,14 +124,14 @@ export default function TasksList({ user }: { user: any }) {
           prev.map((t) =>
             t.id === tempId
               ? { ...t, id: data.id, createdAt: new Date(data.created_at) }
-              : t
-          )
+              : t,
+          ),
         );
     } else if (type === "toggle" && id) {
       const task = tasks.find((t) => t.id === id);
       if (!task) return;
       setTasks(
-        tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
+        tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
       );
       await supabase
         .from("tasks")
@@ -156,10 +156,11 @@ export default function TasksList({ user }: { user: any }) {
       timeframe === "all"
         ? true
         : timeframe === "today"
-        ? isToday
-        : timeframe === "past"
-        ? !isToday
-        : new Date(t.createdAt).toISOString().split("T")[0] === selectedDate;
+          ? isToday
+          : timeframe === "past"
+            ? !isToday
+            : new Date(t.createdAt).toISOString().split("T")[0] ===
+              selectedDate;
     return matchesFilter && matchesSearch && matchesTimeframe;
   });
 
@@ -254,14 +255,14 @@ export default function TasksList({ user }: { user: any }) {
                 </button>
               ))}
             </div>
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="h-12 w-12 -2xl bg-[#121212] border-white/5"
+                  className="h-12 w-12 -2xl bg-[#121212] border-white/5 hover:bg-white/5 transition-all"
                 >
                   <Filter
-                    className={`h-5 w-5 ${
+                    className={`h-5 w-5 transition-colors ${
                       timeframe !== "all" ? "text-indigo-400" : "text-gray-500"
                     }`}
                   />
@@ -272,48 +273,53 @@ export default function TasksList({ user }: { user: any }) {
                 side="bottom"
                 sideOffset={12}
                 avoidCollisions={false}
-                className="w-64 bg-[#0f0f0f] border-white/10 text-white z-50 -2xl"
+                className="w-64 bg-black/80 backdrop-blur-xl border-white/10 text-white z-50 -2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-200 overflow-y-auto max-h-[80vh] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent hover:scrollbar-thumb-white/20"
               >
-                <DropdownMenuLabel className="px-4 py-3 text-xs uppercase text-gray-400">
+                <DropdownMenuLabel className="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500">
                   Timeframe
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-white/5" />
+                <DropdownMenuSeparator className="bg-white/5 mx-2" />
                 <DropdownMenuRadioGroup
                   value={timeframe}
                   onValueChange={(v: any) => setTimeframe(v)}
+                  className="p-1"
                 >
                   <DropdownMenuRadioItem
                     value="all"
-                    className="flex gap-3 py-3 px-4 focus:bg-white/5"
+                    className="flex gap-3 py-3 px-4 -xl focus:bg-white/5 cursor-pointer"
                   >
-                    <ListIcon className="h-4 w-4" /> All Time
+                    <ListIcon className="h-4 w-4" />
+                    <span className="text-sm font-medium">All Time</span>
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem
                     value="today"
-                    className="flex gap-3 py-3 px-4 focus:bg-white/5"
+                    className="flex gap-3 py-3 px-4 -xl focus:bg-white/5 cursor-pointer"
                   >
-                    <Calendar className="h-4 w-4 text-emerald-400" /> Today Only
+                    <Calendar className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm font-medium">Today Only</span>
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem
                     value="past"
-                    className="flex gap-3 py-3 px-4 focus:bg-white/5"
+                    className="flex gap-3 py-3 px-4 -xl focus:bg-white/5 cursor-pointer"
                   >
-                    <History className="h-4 w-4 text-amber-400" /> Past Tasks
+                    <History className="h-4 w-4 text-amber-400" />
+                    <span className="text-sm font-medium">Past Tasks</span>
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem
                     value="custom"
-                    className="flex gap-3 py-3 px-4 focus:bg-white/5"
+                    className="flex gap-3 py-3 px-4 -xl focus:bg-white/5 cursor-pointer"
                   >
-                    <Search className="h-4 w-4 text-indigo-400" /> Pick Date
+                    <Search className="h-4 w-4 text-indigo-400" />
+                    <span className="text-sm font-medium">Pick Date</span>
                   </DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
                 {timeframe === "custom" && (
-                  <div className="p-4 border-t border-white/5">
+                  <div className="p-3 mt-1 bg-white/5 -xl border border-white/5 transition-all animate-in slide-in-from-top-2">
                     <input
                       type="date"
                       value={selectedDate}
                       onChange={(e) => setSelectedDate(e.target.value)}
-                      className="w-full bg-[#1a1a1a] -lg px-3 py-2 text-white [color-scheme:dark]"
+                      className="w-full bg-transparent text-sm font-bold text-white focus:outline-none [color-scheme:dark]"
                     />
                   </div>
                 )}

@@ -40,11 +40,15 @@ export function SignUpForm({
     }
 
     try {
+      // Use the actual origin from the browser, which will be the Vercel URL in production
+      const origin =
+        typeof window !== "undefined" ? window.location.origin : "";
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          emailRedirectTo: `${origin}/dashboard`,
         },
       });
       if (error) throw error;
