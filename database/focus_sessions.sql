@@ -1,7 +1,7 @@
 -- Create a table for focus sessions
 create table if not exists public.focus_sessions (
   id uuid default gen_random_uuid() primary key,
-  user_id uuid references auth.users not null,
+  user_id uuid references auth.users on delete cascade not null,
   duration_minutes integer not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );

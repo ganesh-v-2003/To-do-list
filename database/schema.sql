@@ -1,7 +1,7 @@
 -- 1. Create the tasks table (Safe: Only if it doesn't exist)
 create table if not exists public.tasks (
   id uuid default gen_random_uuid() primary key,
-  user_id uuid references auth.users not null,
+  user_id uuid references auth.users on delete cascade not null,
   title text not null,
   description text,
   completed boolean default false,

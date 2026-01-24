@@ -192,9 +192,6 @@ export default function TasksList({ user }: { user: any }) {
             </Link>
           </nav>
         </div>
-        <div className="h-10 w-10 -full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold shadow-lg border border-white/10">
-          G
-        </div>
       </div>
 
       <div className="max-w-6xl mx-auto space-y-10">
